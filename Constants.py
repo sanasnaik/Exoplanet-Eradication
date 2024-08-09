@@ -1,0 +1,4 @@
+# global constants
+SCREENWIDTH = 960 
+SCREENHEIGHT = 540
+FPS = 60
