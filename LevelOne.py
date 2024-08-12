@@ -2,7 +2,6 @@ import pygame, pyghelpers, random, requests, Constants
 
 # screens
 instructions = pygame.image.load('images/level1/instructions.png')
-background = pygame.image.load('images/level1/background.png')
 
 class LevelOne(pyghelpers.Scene):
 
@@ -57,35 +56,34 @@ class LevelOne(pyghelpers.Scene):
                 if 356 <= mouse[0] <= 603 and 379 <= mouse[1] <= 429:
                     self.startGame = True
                 
-                # check if clicked on planet
+                # check if clicked in planet
                 if self.x_val is not None and self.y_val is not None:
                     distance = ((mouse[0] - self.x_val) ** 2 + (mouse[1] - self.y_val) ** 2) ** 0.5
 
                     if distance <= self.radius:
-                        self.spawn_planet()
+                        self.x_val = None
+                        self.y_val = None
 
     def draw(self):
 
-        mouse = pygame.mouse.get_pos()
+        self.window.fill((0, 0, 0))
 
         if (self.startGame):
-            self.window.blit(background, (0,0))
 
             if self.x_val is None or self.y_val is None:
                 self.spawn_planet()
-            
-            pygame.draw.circle(background, (self.r_val, self.g_val, self.b_val), (self.x_val, self.y_val), self.radius)
+            else:
+                pygame.draw.circle(self.window, (self.r_val, self.g_val, self.b_val), (self.x_val, self.y_val), self.radius)
         
         else: 
             self.window.blit(instructions, (0,0))
 
-
     def spawn_planet(self):
         
         # get random color
-        self.r_val = int(255*random.random())
-        self.g_val = int(255*random.random())
-        self.b_val = int(255*random.random())
+        self.r_val = random.randint(10, 255)
+        self.g_val = random.randint(10, 255)
+        self.b_val = random.randint(10, 255)
 
         # get random spawnpoint
         self.x_val = Constants.SCREENWIDTH*random.random()
@@ -93,7 +91,6 @@ class LevelOne(pyghelpers.Scene):
 
         # radius
         self.radius = Constants.SCREENWIDTH/20
-
 
 # Logic:
 # Get random circular spheres as the images for planets. 
