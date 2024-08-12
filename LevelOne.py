@@ -40,7 +40,7 @@ class LevelOne(pyghelpers.Scene):
         response = requests.get(tap_url, params)
         self.exoplanets = response.json() 
         random.shuffle(self.exoplanets)
-
+        self.index = 0
 
     def handleInputs(self, eventsList, keyPressedList):
 
@@ -91,6 +91,14 @@ class LevelOne(pyghelpers.Scene):
 
         # radius
         self.radius = Constants.SCREENWIDTH/20
+
+        # planet data
+        planet = self.exoplanets[self.index]
+        self.planet_name = planet['pl_name']
+        self.planet_num = planet['sy_pnum']
+        print(self.planet_name)
+        print(self.planet_num)
+        self.index = self.index + 1
 
 # Logic:
 # Get random circular spheres as the images for planets. 

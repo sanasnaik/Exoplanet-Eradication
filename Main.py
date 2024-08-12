@@ -9,10 +9,9 @@ pygame.init()
 window = pygame.display.set_mode((Constants.SCREENHEIGHT, Constants.SCREENWIDTH))
 
 # instantiate scenes
-scenesDict = {
-               'LEVEL_ONE'    : LevelOne(window)}
-#'INTRO_SCENE'   : IntroScene(window),
-# 'TUTORIAL_SCENE': TutorialScene(window),
+scenesDict = {'INTRO_SCENE'   : IntroScene(window),
+              'TUTORIAL_SCENE': TutorialScene(window),
+              'LEVEL_ONE'    : LevelOne(window)}
 
 # create scene manager
 oSceneMgr = pyghelpers.SceneMgr(scenesDict, Constants.FPS)
