@@ -15,10 +15,11 @@ class LevelOne(pyghelpers.Scene):
         pygame.display.set_caption("Exoplanet Eradication")
         pygame.display.set_icon(pygame.image.load('images/screenicon.png'))
 
-        # Initialize planet attributes
+        # initialize planet attributes
         self.x_val = None
         self.y_val = None
         self.radius = None
+        self.score = 0
 
     def enter(self, blah):
 
@@ -63,6 +64,10 @@ class LevelOne(pyghelpers.Scene):
                     if distance <= self.radius:
                         self.x_val = None
                         self.y_val = None
+                        if (event.button == 1):
+                            self.left_clicked()
+                        elif (event.button == 3):
+                            self.right_clicked()
 
     def draw(self):
 
@@ -71,14 +76,14 @@ class LevelOne(pyghelpers.Scene):
         if (self.startGame):
 
             if self.x_val is None or self.y_val is None:
-                self.spawn_planet()
+                self.generate_planet()
             else:
-                pygame.draw.circle(self.window, (self.r_val, self.g_val, self.b_val), (self.x_val, self.y_val), self.radius)
+                self.draw_planet()
         
         else: 
             self.window.blit(instructions, (0,0))
 
-    def spawn_planet(self):
+    def generate_planet(self):
         
         # get random color
         self.r_val = random.randint(10, 255)
@@ -96,9 +101,26 @@ class LevelOne(pyghelpers.Scene):
         planet = self.exoplanets[self.index]
         self.planet_name = planet['pl_name']
         self.planet_num = planet['sy_pnum']
-        print(self.planet_name)
-        print(self.planet_num)
         self.index = self.index + 1
+    
+    def draw_planet(self):
+        pygame.draw.circle(self.window, (self.r_val, self.g_val, self.b_val), (self.x_val, self.y_val), self.radius)
+
+        my_font = pygame.font.SysFont('Comic Sans MS', 30)
+        text_surface = my_font.render(self.planet_name + "\n" + str(self.planet_num), False, (255, 255, 255))
+        self.window.blit(text_surface, (0,0))
+
+    def left_clicked(self):
+        if (self.planet_num == 1):
+            self.score = self.score + 1
+        else:
+            self.score = self.score - 1
+    
+    def right_clicked(self):
+        if (self.planet_num == 1):
+            self.score = self.score - 1
+        else:
+            self.score = self.score + 1
 
 # Logic:
 # Get random circular spheres as the images for planets. 
